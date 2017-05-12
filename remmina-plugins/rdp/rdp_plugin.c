@@ -556,7 +556,6 @@ static BOOL remmina_rdp_authenticate(freerdp* instance, char** username, char** 
 {
 	TRACE_CALL("remmina_rdp_authenticate");
 	gchar *s_username, *s_password, *s_domain;
-	const gchar *s_group;
 	gint ret;
 	rfContext* rfi;
 	RemminaProtocolWidget* gp;
@@ -587,13 +586,10 @@ static BOOL remmina_rdp_authenticate(freerdp* instance, char** username, char** 
 			// User has requested to save credentials. We put all the new cretentials
 			// into remminafile->settings. They will be saved later, on successful connection, by
 			// remmina_connection_window.c
+
 			remmina_plugin_service->file_set_string( remminafile, "username", s_username );
 			remmina_plugin_service->file_set_string( remminafile, "password", s_password );
 			remmina_plugin_service->file_set_string( remminafile, "domain", s_domain );
-
-			/* Calls the mpchanger */
-			s_group = remmina_plugin_service->file_get_string( remminafile, "group" );
-			remmina_plugin_service->mpchange_schedule( TRUE, s_group, s_domain, s_username, s_password );
 
 		}
 
